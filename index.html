@@ -3,53 +3,65 @@
   <head>
     <title>teaboards</title>
     <meta name="description" content="A Catalog of Custom Mechanical Keyboards" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
     <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript" src="scripts.js"></script>
   </head>
 
   <body>
-
+  <div style="text-align: center;">
     <header class="main-header">
-      <h1 class="title">teaboards</h1>
+       <h1 class="title">teaboards</h1>
     </header>
+  </div>
 
-    <div id="card-container"></div>
-    <div id="detail-panel" style="display: none;">
-      <button id="close-btn" onclick="closeDetail()">Close</button>
-      <button id="open-modal" onclick="openModal()">Edit</button>
-
-      <h2 id="detail-board"></h2>
-      <div id="detail-specs">
-          <ul id="board-specs"></ul>
-       </div>
-
-      <h3>Switches</h3>
-      <div id="detail-switches">
-         <ul id="switch-specs"></ul>
-      </div>
-
-      <h3>Keycaps</h3>
-      <div id="detail-keycap">
-         <ul id="keycap-specs"></ul>
-      </div>
-    </div>
-
-    <div class="card" style="display: none">
+  <div id="main-layout">
+    <div id="card-container">
+      <div class="card" style="display: none">
       <div class="card-content">
-        <h2>Denim Pair</h2>
+        <h2>Keyboard</h2>
         <img class="main-image" src="" alt="" />
         <div class="thumbnails"></div>
       </div>
     </div>
+  </div>
+    <div id="detail-panel" style="display: none;">
+      <div id="detail-header">
+        <h2 id="detail-board"></h2>
+        <div id="detail-buttons">
+          <button id="close-btn" onclick="closeDetail()">Close</button>
+          <button id="open-modal-board" onclick="openModal('edit-modal-board')">Edit Board</button>
+          <button id="open-modal-switches" onclick="openModal('edit-modal-switches')">Edit Switches</button>
+          <button id="open-modal-keycaps" onclick="openModal('edit-modal-keycaps')">Edit Keycaps</button>
+        </div>
+      </div>
+      
+      <div id="detail-specs">
+          <ul id="board-specs"></ul>
+       </div>
+      <div class="section-header">
+        <h3>Switches</h3>
+      </div>
+      <div id="detail-switches">
+         <ul id="switch-specs"></ul>
+      </div>
+      <div class="section-header">
+        <h3>Keycaps</h3>
+      </div>
+      <div id="detail-keycap">
+         <ul id="keycap-specs"></ul>
+      </div>
+    </div>
+  </div>
   
     <div class="footer">
       <button onclick="quoteAlert()">Get A Quote!</button>
       <button onclick="removeLastCard()">Remove A Card!</button>
     </div>
 
-  <div id="edit-modal" style="display: none;">
-    <div id="modal-content">
+  <div id="edit-modal-board" style="display: none;">
+    <div id="modal-content-board">
       <h2>Edit Board</h2>
       <label>Brand</label>
       <input type="text" id="edit-brand" />
@@ -67,8 +79,34 @@
       <input type="text" id="edit-plate" />
       <label>Description</label>
       <input type="text" id="edit-description" />
-      <button onclick="saveEdit()">Save</button>
-      <button onclick="closeModal()">Close</button>
+      <button onclick="saveEdit('edit-modal-board')">Save</button>
+      <button onclick="closeModal('edit-modal-board')">Close</button>
+   </div>
+  </div>
+
+  <div id="edit-modal-switches" style="display: none;">
+    <div id="modal-content-switches">
+      <h2>Edit Switches</h2>
+      <label>Name</label>
+      <input type="text" id="edit-switchName" />
+      <label>Switch Type</label>
+      <input type="text" id="edit-switchType" />
+      <label>Actuation Force</label>
+      <input type="text" id="edit-actuationForce" />
+      <button onclick="saveEdit('edit-modal-switches')">Save</button>
+      <button onclick="closeModal('edit-modal-switches')">Close</button>
+   </div>
+  </div>
+
+  <div id="edit-modal-keycaps" style="display: none;">
+    <div id="modal-content-keycaps">
+      <h2>Edit Keycaps</h2>
+      <label>Manufacturer</label>
+      <input type="text" id="edit-keycapManu" />
+      <label>Name</label>
+      <input type="text" id="edit-keycapName" />
+      <button onclick="saveEdit('edit-modal-keycaps')">Save</button>
+      <button onclick="closeModal('edit-modal-keycaps')">Close</button>
    </div>
  </div>
 
