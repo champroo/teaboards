@@ -1,31 +1,76 @@
 <!doctype html>
 <html>
   <head>
-    <title>LA TV Shows | Home</title>
-    <meta name="description" content="A Catalog of Shows Set in Los Angeles" />
+    <title>teaboards</title>
+    <meta name="description" content="A Catalog of Custom Mechanical Keyboards" />
     <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript" src="scripts.js"></script>
   </head>
 
   <body>
+
     <header class="main-header">
-      <h1 class="title">LA TV Shows</h1>
+      <h1 class="title">teaboards</h1>
     </header>
+
     <div id="card-container"></div>
-    <div class="card" style="display: none">
-      <div class="card-content">
-        <h2>TV Show Title</h2>
-        <img src="" alt="TV Show Poster" />
-        <ul>
-          <li>Bullet Point 1</li>
-          <li>Bullet Point 2</li>
-          <li>Bullet Point 3</li>
-        </ul>
+    <div id="detail-panel" style="display: none;">
+      <button id="close-btn" onclick="closeDetail()">Close</button>
+      <button id="open-modal" onclick="openModal()">Edit</button>
+
+      <h2 id="detail-board"></h2>
+      <div id="detail-specs">
+          <ul id="board-specs"></ul>
+       </div>
+
+      <h3>Switches</h3>
+      <div id="detail-switches">
+         <ul id="switch-specs"></ul>
+      </div>
+
+      <h3>Keycaps</h3>
+      <div id="detail-keycap">
+         <ul id="keycap-specs"></ul>
       </div>
     </div>
+
+    <div class="card" style="display: none">
+      <div class="card-content">
+        <h2>Denim Pair</h2>
+        <img class="main-image" src="" alt="" />
+        <div class="thumbnails"></div>
+      </div>
+    </div>
+  
     <div class="footer">
       <button onclick="quoteAlert()">Get A Quote!</button>
       <button onclick="removeLastCard()">Remove A Card!</button>
     </div>
+
+  <div id="edit-modal" style="display: none;">
+    <div id="modal-content">
+      <h2>Edit Board</h2>
+      <label>Brand</label>
+      <input type="text" id="edit-brand" />
+      <label>Model</label>
+      <input type="text" id="edit-model" />
+      <label>Layout</label>
+      <input type="text" id="edit-layout" />
+      <label>Case Material</label>
+      <input type="text" id="edit-case" />
+      <label>Weight</label>
+      <input type="text" id="edit-weight" />
+      <label>Mount</label>
+      <input type="text" id="edit-mount" />
+      <label>Plate</label>
+      <input type="text" id="edit-plate" />
+      <label>Description</label>
+      <input type="text" id="edit-description" />
+      <button onclick="saveEdit()">Save</button>
+      <button onclick="closeModal()">Close</button>
+   </div>
+ </div>
+
   </body>
 </html>
