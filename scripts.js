@@ -1,24 +1,33 @@
-
-// This function adds cards the page to display the data in the array
 let currentBoard = null;
+let cardContainer;
+let templateCard;
+const boardSpecs = ["brand", "model", "layout", "case", "weight", "mount", "plate", "description"];
+const switchSpecs = ["switchName", "switchType", "actuationForce"];
+const keycapSpecs = ["keycapManu", "keycapName"];
 
+// This calls the showCards() function and maintains a template card when the page is first loaded
+document.addEventListener("DOMContentLoaded", function() {
+  cardContainer = document.getElementById("card-container");
+  templateCard = document.querySelector(".card");
+  showCards();
+});
+
+// This function creates cards from the object array and adds to container
 function showCards() 
 {
-  const cardContainer = document.getElementById("card-container");
-  const templateCard = document.querySelector(".card");
   cardContainer.innerHTML = "";
 
   for (let i = 0; i < keyboards.length; i++) {
     let board = keyboards[i];
 
     const nextCard = templateCard.cloneNode(true); // Copy the template card
-    editCardContent(nextCard, board, i+1); // Edit title
+    editCardContent(nextCard, board, i+1); // Edit card data
     cardContainer.appendChild(nextCard); // Add new card to the container
   }
 }
 
-
-
+// this function displays the name and array of images of each object in the array
+// a main image is displayed along with thumbnails of other images that can be viewed
 function editCardContent(card, board, entryNum) 
 {
   card.style.display = "block";
@@ -29,31 +38,37 @@ function editCardContent(card, board, entryNum)
   const cardHeader = card.querySelector("h2");
   cardHeader.textContent = entryNum + ". " + board.brand + " " + board.model;
 
-  const mainImage = card.querySelector(".main-image");
-  mainImage.src = board.images[0];
-  mainImage.alt = board.brand + " " + board.model;
-
-  const thumbnailContainer = card.querySelector(".thumbnails");
-  thumbnailContainer.innerHTML = "";
-
-  for (let i = 0; i < board.images.length; i++)
+  if (board.images)
   {
-    const thumb = document.createElement("img");
-    thumb.src = board.images[i];
-    thumb.className = "thumbnail";
+    const mainImage = card.querySelector(".main-image");
+    mainImage.src = board.images[0];
+    mainImage.alt = board.brand + " " + board.model;
 
-    thumb.addEventListener("click", function() {
-      event.stopPropagation();
-      mainImage.src = board.images[i];
-      openDetail(board);
+    const thumbnailContainer = card.querySelector(".thumbnails");
+    thumbnailContainer.innerHTML = "";
+
+    // iterate through our array of images and create an image element
+    // when image is clicked, display it as the main image
+    for (let i = 0; i < board.images.length; i++)
+    {
+      const thumb = document.createElement("img");
+      thumb.src = board.images[i];
+      thumb.className = "thumbnail";
+
+      thumb.addEventListener("click", function() {
+        mainImage.src = board.images[i];
+        openDetail(board);
+
+        
     });
 
     thumbnailContainer.appendChild(thumb);
+    }
   }
 }
 
-
-
+// this function opens a detail panel when a card is clicked
+// accesses array of objects to display keyboard details in table
 function openDetail(board) 
 {
   currentBoard = board;
@@ -88,32 +103,13 @@ function openDetail(board)
   panel.style.display = "block";
 }
 
-
-
-function closeDetail() 
+// this function closes our windows
+function closeDetail(modalId) 
 {
-  document.getElementById("detail-panel").style.display = "none";
+  document.getElementById(modalId).style.display = "none";
 }
 
-
-
-// This calls the addCards() function when the page is first loaded
-document.addEventListener("DOMContentLoaded", showCards);
-
-function quoteAlert() {
-  console.log("Button Clicked!");
-  alert(
-    "I guess I can kiss heaven goodbye, because it got to be a sin to look this good!",
-  );
-}
-
-function removeLastCard() {
-  titles.pop(); // Remove last item in titles array
-  showCards(); // Call showCards again to refresh
-}
-
-
-
+// this function opens a modal for editing and prefills the fields with existing data
 function openModal(modalId)
 {
   console.log("openModal called, currentBoard is:", currentBoard, "modal id =", modalId);
@@ -122,61 +118,118 @@ function openModal(modalId)
 
   if (modalId == "edit-modal-board")
   {
-    document.getElementById("edit-brand").value = currentBoard.brand;
-    document.getElementById("edit-model").value = currentBoard.model;
-    document.getElementById("edit-layout").value = currentBoard.layout;
-    document.getElementById("edit-case").value = currentBoard.case;
-    document.getElementById("edit-weight").value = currentBoard.weight;
-    document.getElementById("edit-mount").value = currentBoard.mount;
-    document.getElementById("edit-plate").value = currentBoard.plate;
-    document.getElementById("edit-description").value = currentBoard.description;
+    for (let i = 0; i < boardSpecs.length; ++i)
+    {
+      document.getElementById("edit-" + boardSpecs[i]).value = currentBoard[boardSpecs[i]];
+    }
   }
   else if (modalId == "edit-modal-switches")
   {
-    document.getElementById("edit-switchName").value = currentBoard.switches.switchName;
-    document.getElementById("edit-switchType").value = currentBoard.switches.switchType;
-    document.getElementById("edit-actuationForce").value = currentBoard.switches.actuationForce;
+    for (let i = 0; i < switchSpecs.length; ++i)
+    {
+      document.getElementById("edit-" + switchSpecs[i]).value = currentBoard.switches[switchSpecs[i]];
+    }
   }
-  else
+  else if (modalId == "edit-modal-keycaps")
   {
-    document.getElementById("edit-keycapManu").value = currentBoard.keycap.keycapManu;
-    document.getElementById("edit-keycapName").value = currentBoard.keycap.keycapName;
+    for (let i = 0; i < keycapSpecs.length; ++i)
+    {
+      document.getElementById("edit-" + keycapSpecs[i]).value = currentBoard.keycap[keycapSpecs[i]];
+    }
   }
 
   modal.style.display = "flex";
 }
 
-function closeModal(modalId) 
+// this function checks which object (keyboard, switches, or keycaps) we're adding data to,
+// then populates those fields with data input from the form
+function populateFields(board, modalId)
 {
-  document.getElementById(modalId).style.display = "none";
-}
-
-function saveEdit(modalId) 
-{
-  if (modalId == "edit-modal-board")
+  if (modalId == "edit-modal-board") // if edit board, fill modal form with corresponding board spec details
   {
-    currentBoard.brand = document.getElementById("edit-brand").value;
-    currentBoard.model = document.getElementById("edit-model").value;
-    currentBoard.layout = document.getElementById("edit-layout").value;
-    currentBoard.case = document.getElementById("edit-case").value;
-    currentBoard.weight = document.getElementById("edit-weight").value;
-    currentBoard.mount = document.getElementById("edit-mount").value;
-    currentBoard.plate = document.getElementById("edit-plate").value;
-    currentBoard.description = document.getElementById("edit-description").value;
+    for (let i = 0; i < boardSpecs.length; ++i)
+    {
+      board[boardSpecs[i]] = document.getElementById("edit-" + boardSpecs[i]).value;
+    }
   }
   else if (modalId == "edit-modal-switches")
   {
-    currentBoard.switches.switchName = document.getElementById("edit-switchName").value;
-    currentBoard.switches.switchType = document.getElementById("edit-switchType").value;
-    currentBoard.switches.actuationForce = document.getElementById("edit-actuationForce").value;
+    for (let i = 0; i < switchSpecs.length; ++i)
+    {
+      board.switches[switchSpecs[i]] = document.getElementById("edit-" + switchSpecs[i]).value;
+    }
+  }
+  else if (modalId == "edit-modal-keycaps")
+  {
+    for (let i = 0; i < keycapSpecs.length; ++i)
+    {
+      board.keycap[keycapSpecs[i]] = document.getElementById("edit-" + keycapSpecs[i]).value;
+    }
+  }
+  else if (modalId == "add-modal-board") // if adding, fill board specs and switch/keycap with corresponding details
+  {
+    board.switches = {};
+    board.keycap = {};
+    for (let i = 0; i < boardSpecs.length; ++i)
+    {
+      board[boardSpecs[i]] = document.getElementById("add-" + boardSpecs[i]).value;
+
+      if (i < switchSpecs.length)
+      {
+        board.switches[switchSpecs[i]] = document.getElementById("add-" + switchSpecs[i]).value;
+      }
+      if (i < keycapSpecs.length)
+      {
+        board.keycap[keycapSpecs[i]] = document.getElementById("add-" + keycapSpecs[i]).value;
+      }
+    }
+  }
+}
+
+// this function calls populateFields to input data,
+// then rerenders the cards to reflect updates
+function saveEdit(modalId) 
+{
+  populateFields(currentBoard, modalId);
+  closeDetail(modalId);
+  openDetail(currentBoard);
+  showCards();
+}
+
+// this function calls populateFields and passes a new board object into it to be
+// filled and pushed into our array of objects. after being added to the array,
+// the cards are rerendered
+function addBoard(modalId)
+{
+  console.log("addBoard called, currentBoard: ", currentBoard);
+  let newBoard = {};
+
+  populateFields(newBoard, modalId);
+  keyboards.push(newBoard);
+  closeDetail(modalId);
+  showCards();
+}
+
+// this function prompts user to input board they want deleted
+// then splices the array to remove the board at that index of the array
+// and shift every element over. then it rerenders cards
+function deleteBoard()
+{
+  let promptMsg = "Please enter the number of the keyboard to delete.";
+  let numToDelete = prompt(promptMsg);
+
+  if (isNaN(numToDelete)) // input checking, only numeric chars allowed
+  {
+    alert("Invalid input. Only numeric characters allowed.");
+  }
+  else if (+numToDelete - 1 >= keyboards.length || +numToDelete <= 0)
+  {
+    alert("Invalid Number.")
   }
   else
   {
-    currentBoard.keycap.keycapManu = document.getElementById("edit-keycapManu").value;
-    currentBoard.keycap.keycapName = document.getElementById("edit-keycapName").value;
+    keyboards.splice(+numToDelete - 1, 1);
   }
 
-  closeModal(modalId);
-  openDetail(currentBoard);
   showCards();
 }

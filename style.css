@@ -112,7 +112,7 @@ button {
   opacity: 1;
 }
 
-#edit-modal-board, #edit-modal-switches, #edit-modal-keycaps {
+#edit-modal-board, #edit-modal-switches, #edit-modal-keycaps, #add-modal-board {
   position: fixed;
   top: 0;
   left: 0;

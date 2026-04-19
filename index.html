@@ -17,6 +17,10 @@
   </div>
 
   <div id="main-layout">
+    <div id="controls">
+      <button onclick="openModal('add-modal-board')">Add Board</button>
+      <button onclick="deleteBoard()">Delete Board</button>
+    </div>
     <div id="card-container">
       <div class="card" style="display: none">
       <div class="card-content">
@@ -30,7 +34,7 @@
       <div id="detail-header">
         <h2 id="detail-board"></h2>
         <div id="detail-buttons">
-          <button id="close-btn" onclick="closeDetail()">Close</button>
+          <button id="close-btn" onclick="closeDetail('detail-panel')">Close</button>
           <button id="open-modal-board" onclick="openModal('edit-modal-board')">Edit Board</button>
           <button id="open-modal-switches" onclick="openModal('edit-modal-switches')">Edit Switches</button>
           <button id="open-modal-keycaps" onclick="openModal('edit-modal-keycaps')">Edit Keycaps</button>
@@ -54,11 +58,6 @@
       </div>
     </div>
   </div>
-  
-    <div class="footer">
-      <button onclick="quoteAlert()">Get A Quote!</button>
-      <button onclick="removeLastCard()">Remove A Card!</button>
-    </div>
 
   <div id="edit-modal-board" style="display: none;">
     <div id="modal-content-board">
@@ -80,7 +79,7 @@
       <label>Description</label>
       <input type="text" id="edit-description" />
       <button onclick="saveEdit('edit-modal-board')">Save</button>
-      <button onclick="closeModal('edit-modal-board')">Close</button>
+      <button id="close-btn" onclick="closeDetail('edit-modal-board')">Close</button>
    </div>
   </div>
 
@@ -94,7 +93,7 @@
       <label>Actuation Force</label>
       <input type="text" id="edit-actuationForce" />
       <button onclick="saveEdit('edit-modal-switches')">Save</button>
-      <button onclick="closeModal('edit-modal-switches')">Close</button>
+      <button onclick="closeDetail('edit-modal-switches')">Close</button>
    </div>
   </div>
 
@@ -106,9 +105,43 @@
       <label>Name</label>
       <input type="text" id="edit-keycapName" />
       <button onclick="saveEdit('edit-modal-keycaps')">Save</button>
-      <button onclick="closeModal('edit-modal-keycaps')">Close</button>
+      <button onclick="closeDetail('edit-modal-keycaps')">Close</button>
    </div>
  </div>
+
+   <div id="add-modal-board" style="display: none;">
+    <div id="modal-content-board">
+      <h2>Edit Board</h2>
+      <label>Brand</label>
+      <input type="text" id="add-brand" />
+      <label>Model</label>
+      <input type="text" id="add-model" />
+      <label>Layout</label>
+      <input type="text" id="add-layout" />
+      <label>Case Material</label>
+      <input type="text" id="add-case" />
+      <label>Weight</label>
+      <input type="text" id="add-weight" />
+      <label>Mount</label>
+      <input type="text" id="add-mount" />
+      <label>Switches</label>
+      <input type="text" id="add-switchName" />
+      <label>Switch Type</label>
+      <input type="text" id="add-switchType" />
+      <label>Actuation Force</label>
+      <input type="text" id="add-actuationForce" />
+      <label>Keycap Manufacturer</label>
+      <input type="text" id="add-keycapManu" />
+      <label>Keycap Name</label>
+      <input type="text" id="add-keycapName" />
+      <label>Plate</label>
+      <input type="text" id="add-plate" />
+      <label>Description</label>
+      <input type="text" id="add-description" />
+      <button onclick="addBoard('add-modal-board')">Submit</button>
+      <button onclick="closeDetail('add-modal-board')">Close</button>
+   </div>
+  </div>
 
   </body>
 </html>
