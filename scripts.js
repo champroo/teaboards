@@ -58,8 +58,6 @@ function editCardContent(card, board, entryNum)
       thumb.addEventListener("click", function() {
         mainImage.src = board.images[i];
         openDetail(board);
-
-        
     });
 
     thumbnailContainer.appendChild(thumb);
@@ -218,7 +216,6 @@ function saveEdit(modalId)
 // the cards are rerendered
 function addBoard(modalId)
 {
-  console.log("addBoard called, currentBoard: ", currentBoard);
   let newBoard = {};
 
   populateFields(newBoard, modalId);
