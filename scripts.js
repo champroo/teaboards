@@ -1,7 +1,7 @@
 let currentBoard = null;
 let cardContainer;
 let templateCard;
-const boardSpecs = ["brand", "model", "layout", "case", "weight", "mount", "plate", "description"];
+const boardSpecs = ["brand", "model", "layout", "case", "weight", "mount", "plate", "description", "images"];
 const switchSpecs = ["switchName", "switchType", "actuationForce"];
 const keycapSpecs = ["keycapManu", "keycapName"];
 
@@ -149,7 +149,15 @@ function populateFields(board, modalId)
   {
     for (let i = 0; i < boardSpecs.length; ++i)
     {
-      board[boardSpecs[i]] = document.getElementById("edit-" + boardSpecs[i]).value;
+      if (boardSpecs[i] == "images") // if it's an image property, we need to push into the image array
+      {
+        board.images = [] // empty the array of images
+        board.images.push(document.getElementById("edit-images").value); // add the new image
+      }
+      else
+      {
+        board[boardSpecs[i]] = document.getElementById("edit-" + boardSpecs[i]).value;
+      }
     }
   }
   else if (modalId == "edit-modal-switches")
@@ -170,17 +178,26 @@ function populateFields(board, modalId)
   {
     board.switches = {};
     board.keycap = {};
+    board.images = [];
     for (let i = 0; i < boardSpecs.length; ++i)
     {
-      board[boardSpecs[i]] = document.getElementById("add-" + boardSpecs[i]).value;
-
-      if (i < switchSpecs.length)
+      if (boardSpecs[i] == "images") // if it's an image property, we need to push into the image array
       {
-        board.switches[switchSpecs[i]] = document.getElementById("add-" + switchSpecs[i]).value;
+        board.images.push(document.getElementById("add-images").value);
+        console.log("board image link: ", board.images)
       }
-      if (i < keycapSpecs.length)
+      else
       {
-        board.keycap[keycapSpecs[i]] = document.getElementById("add-" + keycapSpecs[i]).value;
+        board[boardSpecs[i]] = document.getElementById("add-" + boardSpecs[i]).value;
+
+        if (i < switchSpecs.length)
+        {
+          board.switches[switchSpecs[i]] = document.getElementById("add-" + switchSpecs[i]).value;
+        }
+        if (i < keycapSpecs.length)
+        {
+          board.keycap[keycapSpecs[i]] = document.getElementById("add-" + keycapSpecs[i]).value;
+        }
       }
     }
   }
