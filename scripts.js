@@ -79,25 +79,25 @@ function openDetail(board)
   const boardSpecs = document.getElementById("board-specs");  
   boardSpecs.innerHTML = 
   `
-    <li><span class="spec-label">Layout</span><span class="spec-value">${board.layout}</span></li>
-    <li><span class="spec-label">Case</span><span class="spec-value">${board.case}</span></li>
-    <li><span class="spec-label">Weight</span><span class="spec-value">${board.weight}</span></li>
-    <li><span class="spec-label">Mount</span><span class="spec-value">${board.mount}</span></li>
-    <li><span class="spec-label">Plate</span><span class="spec-value">${board.plate}</span></li>
-    <li><span class="spec-label">Description</span><span class="spec-value">${board.description}</span></li>
+    <li><span class="spec-label">Layout: </span><span class="spec-value">${board.layout}</span></li>
+    <li><span class="spec-label">Case: </span><span class="spec-value">${board.case}</span></li>
+    <li><span class="spec-label">Weight: </span><span class="spec-value">${board.weight}</span></li>
+    <li><span class="spec-label">Mount: </span><span class="spec-value">${board.mount}</span></li>
+    <li><span class="spec-label">Plate: </span><span class="spec-value">${board.plate}</span></li>
+    <li><span class="spec-label">Description: </span><span class="spec-value">${board.description}</span></li>
   `
   const switchSpecs = document.getElementById("switch-specs");
   switchSpecs.innerHTML = 
   `
-    <li><span>Name: </span><span>${board.switches.switchName}</span></li>
-    <li><span>Type: </span><span>${board.switches.switchType}</span></li>
-    <li><span>Actuation force: </span><span>${board.switches.actuationForce}</span></li>
+    <li><span class="spec-label">Name: </span><span class="spec-value">${board.switches.switchName}</span></li>
+    <li><span class="spec-label">Type: </span><span class="spec-value">${board.switches.switchType}</span></li>
+    <li><span class="spec-label">Actuation force: </span><span class="spec-value">${board.switches.actuationForce}</span></li>
   `
   const keycapSpecs = document.getElementById("keycap-specs");
   keycapSpecs.innerHTML = 
   `
-    <li><span>Manufacturer: </span><span>${board.keycap.keycapManu}</span></li>
-    <li><span>Name: </span><span>${board.keycap.keycapName}</span></li>
+    <li><span class="spec-label">Manufacturer: </span><span class="spec-value">${board.keycap.keycapManu}</span></li>
+    <li><span class="spec-label">Name: </span><span class="spec-value">${board.keycap.keycapName}</span></li>
   `
 
   panel.style.display = "block";
@@ -232,4 +232,73 @@ function deleteBoard()
   }
 
   showCards();
+}
+
+// this function opens our dropdown window for the sort by button
+// closes whenever we click out
+function dropdownFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    let dropdowns = document.getElementsByClassName("dropdown-content");
+    for (let i = 0; i < dropdowns.length; i++) {
+      let openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+} 
+
+// this function utilizes array sort() method to sort the array according
+// to the sort type. accesses object properties and compares to determine order
+function sortBoards(sortOption)
+{
+  if (sortOption == "layout")
+  {
+    // converts our string into an integer and sorts ascending
+    keyboards.sort((a, b) => {
+      const layoutA = parseInt(a.layout);
+      const layoutB = parseInt(b.layout);
+      // if either of the strings are not numeric, put the numeric value first
+      if (layoutA == NaN)
+      {
+        return 1;
+      }
+      if (layoutB == NaN)
+      {
+        return -1;
+      }
+      else
+      {
+        return layoutA - layoutB;  
+      }
+    });
+
+    showCards();
+  }
+  else if (sortOption == "brand")
+  {
+    keyboards.sort((a, b) => {
+      const nameA = a.brand.toUpperCase();
+      const nameB = b.brand.toUpperCase();
+      if (nameA < nameB)
+      {
+         return -1;
+      }
+      else if (nameA > nameB)
+      {
+         return 1;
+      }
+      else
+      {
+        return 0;
+      }
+    });
+  
+    showCards();
+  }
 }

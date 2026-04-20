@@ -12,7 +12,11 @@
   <body>
   <div style="text-align: center;">
     <header class="main-header">
-       <h1 class="title">teaboards</h1>
+       <div class="banner-left">
+        <span class="banner-title">teaboards</span></span>
+        <div class="banner-divider"></div>
+        <span class="banner-desc">a catalog of mechanical keyboards</span>
+      </div>
     </header>
   </div>
 
@@ -20,6 +24,13 @@
     <div id="controls">
       <button onclick="openModal('add-modal-board')">Add Board</button>
       <button onclick="deleteBoard()">Delete Board</button>
+      <div class="dropdown">
+        <button onclick="dropdownFunction()" class="dropbtn">Sort By</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="#" onclick="sortBoards('layout')">Layout</a>
+          <a href="#" onclick="sortBoards('brand')">Name</a>
+        </div>
+      </div>
     </div>
     <div id="card-container">
       <div class="card" style="display: none">
@@ -124,6 +135,8 @@
       <input type="text" id="add-weight" />
       <label>Mount</label>
       <input type="text" id="add-mount" />
+      <label>Plate</label>
+      <input type="text" id="add-plate" />
       <label>Switches</label>
       <input type="text" id="add-switchName" />
       <label>Switch Type</label>
@@ -134,8 +147,6 @@
       <input type="text" id="add-keycapManu" />
       <label>Keycap Name</label>
       <input type="text" id="add-keycapName" />
-      <label>Plate</label>
-      <input type="text" id="add-plate" />
       <label>Description</label>
       <input type="text" id="add-description" />
       <button onclick="addBoard('add-modal-board')">Submit</button>
