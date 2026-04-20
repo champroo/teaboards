@@ -174,13 +174,14 @@ button:hover {
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   width: 400px;
 }
 
 #modal-content-board h2, #modal-content-switches h2, #modal-content-keycaps h2 {
-  margin: 0 0 0.5rem 0;
-  font-size: 16px;
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  padding: 0;
 }
 
 #detail-panel {
